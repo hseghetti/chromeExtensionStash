@@ -5,7 +5,7 @@
   "version": "1.0",
   "content_scripts": [
     {
-      "matches": ["https://es.atlassian.com/*"],
+      "matches": ["https://stash.swacorp.com/*"],
       "js": ["jquery.min.js", "content-script.js"]
     }
   ],
@@ -15,8 +15,7 @@
   },
   "permissions": [
     "activeTab",
-    "storage",
-    "tabs", "https://es.atlassian.com/*"
+    "storage"
   ],
   "options_page": "options.html"
 }

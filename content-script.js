@@ -23,8 +23,9 @@ function fillReviewers (reviewersList) {
 	// e.keyCode = 13;
 
 	for(reviewer in reviewersList) {
-		$('.select2-input').val($('.select2-input').val() + reviewersList[reviewer]);
+		jQuery('.select2-sizer').text(reviewersList[reviewer]);
 		// $("#searchInput").trigger(e);
-		$('.select2-input').trigger(jQuery.Event('keypress', {which: 13}));
+		//jQuery('#select2-drop').trigger(jQuery.Event('keypress', {which: 13}));
+		document.getElementsByClassName('select2-results-dept-0 select2-result select2-result-selectable select2-highlighted').trigger(jQuery.Event('keypress', {which: 13}));
 	}
 };
