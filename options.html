@@ -3,24 +3,25 @@
 <head><title>My Test Extension Options</title></head>
 <body>
 
-<div>
-	<label for="textarea01">Reviewers Group 01</label>
-	<textarea id=textarea01 row="50" cols="150"></textarea>
-</div>
+	<div>
+		<label for="newReviewerGroup">New Reviewer Group</label>
+		<input id="newReviewerGroup" type="text" />
+		<input id="saveNewGroup" type="button" value="Save New Group"/>
+	</div>
 
-<div>
-	<label for="textarea02">Reviewers Group 02</label>
-	<textarea id=textarea02 row="50" cols="150"></textarea>
-</div>
+	<div>
+		<label for="groupsList">Reviewers Groups</label>
+		<select id="groupsList">
+			<option selected>Select a Group</option>
+		</select>
+		<input id="saveGroup" type="button" value="Save Changes"/>
+	</div>
 
-<div>
-	<label for="textarea03">Reviewers Group 03</label>
-	<textarea id=textarea03 row="50" cols="150"></textarea>
-</div>
+	<div>
+		<label for="textarea01">Reviewers Group 01</label>
+		<textarea id=textarea01 rows="30" cols="150"></textarea>
+	</div>
 
-<div id="status"></div>
-<button id="save">Save</button>
-
-<script src="options.js"></script>
+	<script src="options.js"></script>
 </body>
 </html>
