@@ -13,22 +13,43 @@ function saveReviewers() {
         return;
       }
   }
-}
+};
+
+function deleteGroup() {
+  var select = document.getElementById('groupsList');
+  var selectedGroup = select.options[select.selectedIndex];
+
+  for (group in reviewersData) {
+    if (reviewersData[group] && reviewersData[group].id == selectedGroup.value &&
+      reviewersData[group].name === selectedGroup.text) {
+        reviewersData.splice(group,1);
+        console.log('asdasdasd');
+        console.log(reviewersData);
+        saveDataStore({reviewersGroup: reviewersData});
+        loadGroupList(reviewersData);
+
+        return;
+      }
+  }
+};
 
 function saveNewGroup() {
-  var newGroupName = document.getElementById('newReviewerGroup').value;
-console.log(newGroupName);
+  var newGroupInput = document.getElementById('newReviewerGroup');
+  var newGroupName = newGroupInput.value;
+
   if (newGroupName !== '') {
     var newGroup = {
        id: reviewersData.length,
        name: newGroupName,
        data: ''
     };
-    console.log(newGroup);
+
     reviewersData.push(newGroup);
     saveDataStore({reviewersGroup: reviewersData});
-    loadGroupList();
+    loadGroupList(reviewersData);
   }
+
+  newGroupInput.value = '';
 };
 
 function saveDataStore(dataToSave) {
@@ -58,17 +79,26 @@ document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('groupsList').addEventListener('change', loadSelectedGroupData);
 document.getElementById('saveGroup').addEventListener('click', saveReviewers);
 document.getElementById('saveNewGroup').addEventListener('click', saveNewGroup);
+document.getElementById('deleteGroup').addEventListener('click', deleteGroup);
 
 
 var loadGroupList = function (reviewersGroups) {
   var select = document.getElementById('groupsList');
+  select.options.length = 0;
   var option = null;
+  console.log(reviewersGroups);
+
+  // reviewersGroups.splice(0,1);
+  // console.log(reviewersGroups);
+  // saveDataStore(reviewersGroups);
 
   for (group in reviewersGroups) {
-    option = document.createElement('option');
-    option.value = reviewersGroups[group].id;
-    option.text = reviewersGroups[group].name;
-    select.add(option);
+    if (reviewersGroups[group]) {
+      option = document.createElement('option');
+      option.value = reviewersGroups[group].id;
+      option.text = reviewersGroups[group].name;
+      select.add(option);
+    }
   }
 
   reviewersData = reviewersGroups;
@@ -79,7 +109,7 @@ function loadSelectedGroupData() {
   var selectedGroup = select.options[select.selectedIndex];
 
   for (group in reviewersData) {
-    if (reviewersData[group].id == selectedGroup.value &&
+    if (reviewersData[group] && reviewersData[group].id == selectedGroup.value &&
       reviewersData[group].name === selectedGroup.text) {
         document.getElementById('textarea01').value = reviewersData[group].data;
       }
