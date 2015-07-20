@@ -1,18 +1,70 @@
 function saveReviewers() {
-  // var group01 = document.getElementById('textarea01').value;
-  // var group02 = document.getElementById('textarea02').value;
 
   var select = document.getElementById('groupsList');
   var selectedGroup = select.options[select.selectedIndex];
 
+  //retrieve data to save
+  var dataToSave = document.getElementById('textarea01').value;
+
+  var jsonData = eval('(' + dataToSave + ')');
+  var dataToSaveArray = [];
+
+  for (index in jsonData) {
+    dataToSaveArray.push(getReviewerDataStructure(jsonData[index]));
+  }
+
   for (group in reviewersData) {
-    if (reviewersData[group].id == selectedGroup.value &&
+    if (reviewersData[group] && reviewersData[group].id == selectedGroup.value &&
       reviewersData[group].name === selectedGroup.text) {
-        reviewersData[group].data = document.getElementById('textarea01').value;
+        console.log(dataToSaveArray);
+        reviewersData[group].data = dataToSaveArray;
         saveDataStore({reviewersGroup: reviewersData});
         return;
       }
   }
+};
+
+function getReviewerDataStructure (reviewersData) {
+    // var template = '
+    //   {
+    //       "id": "&userId",
+    //       "text": "&userName",
+    //       "item": {
+    //           "name": "&userId",
+    //           "emailAddress": "&userMail",
+    //           "id": "",
+    //           "displayName": "&userName",
+    //           "active": true,
+    //           "slug": "&userId",
+    //           "type": "NORMAL",
+    //           "link": {
+    //               "url": "/users/&userId",
+    //               "rel": "self"
+    //           },
+    //           "links": {
+    //               "self": [{
+    //                   "href": "https://stash.swacorp.com/users/&userId"
+    //               }]
+    //           },
+    //           "avatarUrl": "/users/&userId/avatar.png?s=32"
+    //       }
+    //   }
+    // ';
+
+  // [
+  //   {"id": "01", "name": "user01", "email": "email01@email.com" },
+  //   {"id": "02", "name": "user02", "email": "email02@email.com" },
+  //   {"id": "03", "name": "user03", "email": "email03@email.com" },
+  //   {"id": "04", "name": "user04", "email": "email04@email.com" }
+  // ]
+
+    var template = '{"id": "&userId", "text": "&userName", "item": { "name": "&userId", "emailAddress": "&userMail", "id": "", "displayName": "&userName", "active": true, "slug": "&userId", "type": "NORMAL", "link": { "url": "/users/&userId", "rel": "self"}, "links": {"self": [{"href": "https://stash.swacorp.com/users/&userId"}]}, "avatarUrl": "/users/&userId/avatar.png?s=32"}}';
+
+    template = template.replace(/&userName/g, reviewersData.name);
+    template = template.replace(/&userId/g, reviewersData.id);
+    template = template.replace(/&userMail/g, reviewersData.email);
+
+    return template;
 };
 
 function deleteGroup() {
@@ -88,10 +140,6 @@ var loadGroupList = function (reviewersGroups) {
   var option = null;
   console.log(reviewersGroups);
 
-  // reviewersGroups.splice(0,1);
-  // console.log(reviewersGroups);
-  // saveDataStore(reviewersGroups);
-
   for (group in reviewersGroups) {
     if (reviewersGroups[group]) {
       option = document.createElement('option');
@@ -111,7 +159,9 @@ function loadSelectedGroupData() {
   for (group in reviewersData) {
     if (reviewersData[group] && reviewersData[group].id == selectedGroup.value &&
       reviewersData[group].name === selectedGroup.text) {
-        document.getElementById('textarea01').value = reviewersData[group].data;
+        console.log('Data from selected group');
+        console.log(reviewersData[group].data);
+        document.getElementById('textarea01').value = reviewersData[group].data.toString();
       }
   }
 };
