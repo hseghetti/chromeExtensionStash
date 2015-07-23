@@ -108,7 +108,7 @@ function saveDataStore(dataToSave) {
   chrome.storage.sync.set(dataToSave, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
-    status.textContent = 'Options saved.';
+    status.textContent = 'Action Performed';
     setTimeout(function() {
       status.textContent = '';
     }, 750);
@@ -140,6 +140,10 @@ var loadGroupList = function (reviewersGroups) {
   var option = null;
   console.log(reviewersGroups);
 
+  option = document.createElement('option');
+  option.text = 'Select a Group';
+  select.add(option);
+
   for (group in reviewersGroups) {
     if (reviewersGroups[group]) {
       option = document.createElement('option');
@@ -155,17 +159,34 @@ var loadGroupList = function (reviewersGroups) {
 function loadSelectedGroupData() {
   var select = document.getElementById('groupsList');
   var selectedGroup = select.options[select.selectedIndex];
+  var parsedData = null;
 
   for (group in reviewersData) {
     if (reviewersData[group] && reviewersData[group].id == selectedGroup.value &&
       reviewersData[group].name === selectedGroup.text) {
-        console.log('Data from selected group');
-        console.log(reviewersData[group].data);
-        document.getElementById('textarea01').value = reviewersData[group].data.toString();
+        console.log('asdasd');
+        parsedData = getStoreDataParsed(reviewersData[group].data);
+        console.log(parsedData);
+        document.getElementById('textarea01').value = parsedData;
       }
   }
 };
 
+function getStoreDataParsed (data) {
+  // parsed the stored data
+  var dataString = '[';
+  var parsedData = '';
+
+  for (index in data) {
+    // parsedData += eval('(' + data[index] + ')');
+    parsedData = JSON.parse(data[index]);
+    console.log(parsedData);
+    dataString += '{"id": "' + parsedData.id + '", "name": "' + parsedData.text + '", "email": "' + parsedData.item.emailAddress + '" },';
+  }
+    dataString += ']';
+
+  return dataString;
+};
 
 var reviewerDataTemporal = [
   {

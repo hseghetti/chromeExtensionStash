@@ -1,0 +1,16 @@
+.main-content {
+	margin-left: 50px;
+	margin-top: 20px;
+}
+
+.section {
+	margin-bottom: 20px;
+}
+
+.status-section {
+	color: blue;
+	display: inline-block;
+	font-size: 15px;
+	
+	margin-left: 50px;
+}
