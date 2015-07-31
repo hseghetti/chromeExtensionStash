@@ -3,19 +3,19 @@ function renderStatus(statusText) {
 };
 
 function addReviewers(e) {
+  
   var script = '';
   chrome.storage.sync.get({
-    reviewersGroup: {
-      group01: [
-        'hernan.seghetti@wnco.com'
-      ],
-      group02: [
-        'martin.rodriguez@wnco.com'
-      ]
-    }
+    reviewersGroup: [
+    ]
   }, function(items) {
     //script = "document.getElementById('searchInput').value = '" + items.reviewersGroup[e.target.id] + "';";
-    script = "fillReviewers('" + items.reviewersGroup[e.target.id] + "');";
+    for (groupIndex in items.reviewersGroup) {
+      if (items.reviewersGroup[groupIndex] && items.reviewersGroup[groupIndex].id == e.target.id) {
+        script = "fillReviewers('" + items.reviewersGroup[groupIndex].data + "');";
+      }
+    }
+
     chrome.tabs.executeScript({code : script});
   });
 };
@@ -35,14 +35,21 @@ function renderGroupsButtons () {
         button.setAttribute("type", "button");
         button.setAttribute("id", items.reviewersGroup[groupIndex].id);
         button.setAttribute("value", items.reviewersGroup[groupIndex].name);
+        button.onclick = function (event) {addReviewers(event);};
         buttonContainer.appendChild(button);
       }
     }
+
+    // var buttons = document.getElementsByTagName('input');
+    //
+    // for (index in buttons) {
+    //   buttons[index].addEventListener('click', addReviewers);
+    // }
   });
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  // var buttons = document.getElementsByTagName('button');
-  // buttons[0].addEventListener('click', addReviewers);
   renderGroupsButtons();
+
+
 });

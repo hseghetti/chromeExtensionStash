@@ -75,8 +75,7 @@ function deleteGroup() {
     if (reviewersData[group] && reviewersData[group].id == selectedGroup.value &&
       reviewersData[group].name === selectedGroup.text) {
         reviewersData.splice(group,1);
-        console.log('asdasdasd');
-        console.log(reviewersData);
+
         saveDataStore({reviewersGroup: reviewersData});
         loadGroupList(reviewersData);
 
@@ -95,7 +94,7 @@ function saveNewGroup() {
        name: newGroupName,
        data: ''
     };
-
+console.log(newGroupName);
     reviewersData.push(newGroup);
     saveDataStore({reviewersGroup: reviewersData});
     loadGroupList(reviewersData);
