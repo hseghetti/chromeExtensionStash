@@ -156,6 +156,17 @@ var loadGroupList = function (reviewersGroups) {
   reviewersData = reviewersGroups;
 };
 
+// function renderGroupsButtons() {
+//   chrome.storage.sync.get({
+//     reviewersGroup: [
+//
+// 		]
+//   }, function(items) {
+//       // loadGroupList(items.reviewersGroup);
+//
+//   });
+// };
+
 function loadSelectedGroupData() {
   var select = document.getElementById('groupsList');
   var selectedGroup = select.options[select.selectedIndex];
